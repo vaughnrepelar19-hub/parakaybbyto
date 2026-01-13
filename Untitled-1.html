@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Question</title>
+
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #f8cdda, #fbc2eb, #a18cd1);
+      overflow: hidden;
+      font-family: system-ui, sans-serif;
+      position: relative;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 1000px;
+      background: rgba(255,255,255,0.2);
+      backdrop-filter: blur(10px);
+      padding: 3rem 4rem;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+    }
+
+    h1 {
+      font-family: cursive;
+      font-size: 2.6rem;
+      color: #111;
+      margin-bottom: 2.5rem;
+      font-weight: 600;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      gap: 2.5rem;
+    }
+
+    button {
+      padding: 0.9rem 3rem;
+      font-size: 1rem;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      font-weight: 500;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    button:hover { box-shadow: 0 10px 20px rgba(0,0,0,0.15); }
+
+    #yesBtn {
+      background: linear-gradient(135deg, #ff758c, #ff7eb3);
+      color: #fff;
+    }
+
+    /* detach noBtn from card */
+    #noBtn {
+      position: fixed;
+      background: rgba(255,255,255,0.95);
+      color: #333;
+      z-index: 9999;
+    }
+
+    @keyframes shake {
+      0% { transform: translateX(0); }
+      20% { transform: translateX(-5px); }
+      40% { transform: translateX(5px); }
+      60% { transform: translateX(-5px); }
+      80% { transform: translateX(5px); }
+      100% { transform: translateX(0); }
+    }
+
+    .shake { animation: shake 0.35s; }
+  </style>
+</head>
+
+<body>
+  <div class="card">
+    <h1>Will you be my girlfriend?</h1>
+    <div class="buttons">
+      <button id="yesBtn">Yes :)</button>
+    </div>
+  </div>
+
+  <!-- move noBtn outside card -->
+  <button id="noBtn">No :(</button>
+
+  <script>
+    const noBtn = document.getElementById("noBtn");
+    const yesBtn = document.getElementById("yesBtn");
+
+    let moving = false;
+
+    function moveNo() {
+      if (moving) return;
+      moving = true;
+
+      // shake first
+      noBtn.classList.add("shake");
+
+      setTimeout(() => {
+        noBtn.classList.remove("shake");
+
+        const margin = 30;
+        const maxX = window.innerWidth - noBtn.offsetWidth - margin;
+        const maxY = window.innerHeight - noBtn.offsetHeight - margin;
+
+        const x = Math.random() * (maxX - margin) + margin;
+        const y = Math.random() * (maxY - margin) + margin;
+
+        noBtn.style.left = x + "px";
+        noBtn.style.top = y + "px";
+
+        moving = false;
+      }, 350);
+    }
+
+    noBtn.addEventListener("mouseover", moveNo);
+    noBtn.addEventListener("click", moveNo);
+
+    yesBtn.addEventListener("click", () => {
+      document.body.innerHTML = `
+        <div style="
+          width:100%;
+          height:100vh;
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          background: linear-gradient(135deg, #fbc2eb, #a18cd1);
+          font-family: cursive;
+        ">
+          <div style="
+            max-width:1200px;
+            width:100%;
+            text-align:center;
+            color:#fff;
+            font-size:2.8rem;
+          ">
+            HALAAAA HAHA. Congrats sa'tin MARIELLLL 😘
+          </div>
+        </div>
+      `;
+    });
+
+    // initial position in center
+    noBtn.style.left = (window.innerWidth/2 - noBtn.offsetWidth/2) + "px";
+    noBtn.style.top = (window.innerHeight/2 - noBtn.offsetHeight/2 + 40) + "px"; // offset a bit to not overlap yes
+  </script>
+</body>
+</html>
